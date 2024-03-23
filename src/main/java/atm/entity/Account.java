@@ -19,5 +19,5 @@ public class Account {
 
     @Column(name = "account_holder_name")
     private String accountHolderName;
-    private double balance;
+    private Double balance;
 }

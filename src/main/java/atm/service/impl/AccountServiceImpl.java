@@ -7,7 +7,7 @@ import atm.repository.AccountRepository;
 import atm.service.AccountService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -30,6 +30,14 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDto getAccountById(Long id) {
         Account account = accountRepository.findById(id).orElseThrow(() -> new RuntimeException("Account doesn't exist"));
+        return mapperUtil.convert(account, new AccountDto());
+    }
+
+    @Override
+    public AccountDto deposit(Long id, double amount) {
+        Account account = accountRepository.findById(id).orElseThrow(() -> new RuntimeException("Account doesn't exist"));
+        account.setBalance(account.getBalance() + amount);
+        accountRepository.save(account);
         return mapperUtil.convert(account, new AccountDto());
     }
 }
